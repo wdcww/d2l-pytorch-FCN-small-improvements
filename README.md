@@ -69,7 +69,7 @@ fcn.ipynb）综合jupyter notebook源码，把参数、相关函数、相关类�
 #### 共3处改进：
 
 ---
-
+改进1
 * 改进前origin_train.py（源码）使用的网络：resnet18卷积层部分 + 一层1×1卷积 + 一层转置卷积
 ```
 net = nn.Sequential(*list(resnet18.children())[:-2])
@@ -84,7 +84,7 @@ my_train.py使用ResNetUNet：基础网络仍然是resnet18，只是拿出基础
 关于使用layer0~layer4去进行“U”型的连接细节，可见some_define.py中 ResNetUNet类的forward定义。
 
 ---
-
+改进2
 * 改进前origin_train.py（源码）使用的优化器：torch.optim.SGD
 
 现在，
@@ -92,7 +92,7 @@ my_train.py使用ResNetUNet：基础网络仍然是resnet18，只是拿出基础
 my_train.py使用torch.optim.Adam
 
 ---
-
+改进3
 * 改进前origin_train.py（源码）的学习率：1e-3
 
 现在，
@@ -101,13 +101,13 @@ my_train.py使用lr=1e-4
 
 ---
 
-*消融实验1* 
+#### *消融实验1* 
 
-若my_train.py仅仅只是改变网络结构，而仍然使用SGD优化器、1e-3的学习率，均30轮训练：
+左图是./pictures/origin_out.png（d2l课程源码经30轮训练的预测输出）,
 
-左图是./pictures/origin_out.png, 
+右图是改变网络结构为 ResNetUNet的结果，仍然使用SGD优化器、1e-3的学习率，30轮训练。
 
-右图是只改变网络结构的./pictures/out_only_change_net.png
+可见，仅做这个改变，效果不如原来。
 <table>
   <tr>
     <td><img src="./pictures/origin_out.png" alt="Image 1" width="500"></td>
@@ -115,13 +115,11 @@ my_train.py使用lr=1e-4
   </tr>
 </table>
 
-*消融实验2*
-
-若my_train.py使用 ResNetUNet + Adam，而仍然使用1e-3的学习率，均30轮训练：
+#### *消融实验2*
 
 左图依然是./pictures/origin_out.png, 
 
-右图是./pictures/out_ResNetUNet_Adam.png
+右图是使用 ResNetUNet + Adam，仍然使用1e-3的学习率，30轮训练。
 <table>
   <tr>
     <td><img src="./pictures/origin_out.png" alt="Image 1" width="500"></td>
@@ -132,7 +130,7 @@ my_train.py使用lr=1e-4
 #### 综合3处改进的推理结果会稍好一些
 左图依然是./pictures/origin_out.png, 
 
-右图为改进结果./pictures/myout.png(ResNetUNet + Adam + 1e-4)，均30轮训练
+右图为 ResNetUNet + Adam + 1e-4，30轮训练。
 <table>
   <tr>
     <td><img src="./pictures/origin_out.png" alt="Image 1" width="500"></td>
@@ -144,9 +142,9 @@ my_train.py使用lr=1e-4
 
 如果在ResNetUNet + Adam + 1e-4 训练了30轮的基础上，再去以lr=1e-5继续训练10轮，会看到更好的效果：
 
-左图放的是上面综合3处改进的推理结果，即./pictures/myout.png (ResNetUNet + Adam + 30轮1e-4），
+左图放的是上面综合3处改进的推理结果，即 ResNetUNet + Adam + 30轮1e-4，
 
-右图./pictures/out_30_lowlr10.png（ResNetUNet + Adam + 30轮1e-4 + 10轮1e-5）
+右图：ResNetUNet + Adam + 30轮1e-4 + 10轮1e-5 。
 <table>
   <tr>
     <td><img src="./pictures/myout.png" alt="Image 1" width="500"></td>
